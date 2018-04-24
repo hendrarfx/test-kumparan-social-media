@@ -1,26 +1,22 @@
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
-import createHistory from 'history/createBrowserHistory';
-import {routerReducer, routerMiddleware} from 'react-router-redux';
+
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import reducers from './reducers';
 import {watchSaga as rootSaga} from './sagas';
-import firekitReducers from 'firekit';
 
-const history = createHistory();
 const sagaMiddleware = createSagaMiddleware();
-const routeMiddleware = routerMiddleware(history);
-const middlewares = [thunk, sagaMiddleware, routeMiddleware];
-const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__:null || compose;
+const isChrome = !!window.chrome;
+
+const middlewares = [thunk, sagaMiddleware];
+const composeEnhancers = (process.env.NODE_ENV === 'development' && isChrome) ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__:null || compose;
 //const composeEnhancers = compose;
 
 const store = createStore(
     combineReducers({
-        ...reducers,
-        ...firekitReducers,
-        router: routerReducer
+        ...reducers
     }),
     composeEnhancers(applyMiddleware(...middlewares))
 );
 sagaMiddleware.run(rootSaga);
-export {store, history};
+export {store};

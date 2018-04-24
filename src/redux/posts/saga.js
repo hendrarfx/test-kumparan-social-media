@@ -2,12 +2,12 @@ import {put} from 'redux-saga/effects';
 import * as actionType from './actions';
 import axios from '../../common/config/axios.config';
 
-export function* getUsersFromServer(action) {
+export function* getPostFromServer(action) {
     try{
-        yield put(actionType.getUserFromServerInProcess());
-        const results=yield axios.get('/users');
-        yield put(actionType.setUsers(results.data));
+        yield put(actionType.getPostFromServerInProcess());
+        const results=yield axios.get('/posts');
+        yield put(actionType.setAllPost(results.data));
     } catch (error){
-        yield put(actionType.setErrorForGetUserFromServer(error.message));
+        yield put(actionType.setErrorForGetPostFromServer(error.message));
     }
 }

@@ -1,12 +1,12 @@
 import {all, fork} from 'redux-saga/effects';
-import watchAuth from './auth/watch';
-import watchChat from './chat/watch';
-import watchContacts from './contacts/watch';
+import watchUsers from './users/watch';
+import watchPosts from './posts/watch';
+import watchAlbums from './albums/watch';
 
 export function* watchSaga() {
     yield all([
-        fork(watchAuth),
-        fork(watchChat),
-        fork(watchContacts)
+        fork(watchUsers),
+        fork(watchPosts),
+        fork(watchAlbums)
     ]);
 }

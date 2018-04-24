@@ -2,11 +2,11 @@ import * as saga from './saga';
 import * as actionType from './actions';
 import {all,takeEvery} from 'redux-saga/effects';
 
-function* watchUsers() {
+function* watchPosts() {
     yield all([
-        takeEvery(actionType.USERS.GET_USER_FROM_SERVER, saga.getUsersFromServer),
+        takeEvery(actionType.POSTS.GET_POST_FROM_SERVER, saga.getPostFromServer),
     ]);
 
 }
 
-export default watchUsers;
+export default watchPosts;

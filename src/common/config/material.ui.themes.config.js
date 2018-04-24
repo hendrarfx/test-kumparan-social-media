@@ -6,7 +6,7 @@ export const styling = {
     palette: {
         primary1Color: colors.blue600,
         primary2Color: colors.blue700,
-        primary3Color: colors,
+        primary3Color: colors.blue800,
         accent1Color: colors.blue900,
         accent2Color: colors.grey100,
         accent3Color: colors.grey500,

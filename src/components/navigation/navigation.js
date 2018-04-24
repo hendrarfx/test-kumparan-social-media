@@ -1,32 +1,29 @@
 import React from 'react';
-import {Grid} from "react-bootstrap";
 import {Avatar, Chip, FontIcon} from "material-ui";
+import {NavLink} from "react-router-dom";
+import classes from './navigation.css';
 
 const navigation = (props) => {
-    const styles = {
-        chip: {
-            marginRight:'4px'
-        },
-        wrapper: {
-            display: 'flex',
-            flexWrap: 'wrap',
-            padding:'15px'
-        },
-    };
 
-    return (<div style={styles.wrapper}>
-            <Chip style={styles.chip}>
-                <Avatar icon={<FontIcon className="material-icons">home</FontIcon>}/>
-                Home
-            </Chip>
-            <Chip style={styles.chip}>
-                <Avatar icon={<FontIcon className="material-icons">home</FontIcon>}/>
-                All Post
-            </Chip>
-            <Chip style={styles.chip}>
-                <Avatar icon={<FontIcon className="material-icons">home</FontIcon>}/>
-                All Users
-            </Chip>
+    return (<div className={classes.wrapper}>
+            <NavLink to={`${props.match.url}`}>
+                <Chip className={classes.chip}>
+                    <Avatar className={classes.avatar} icon={<FontIcon className="material-icons">home</FontIcon>}/>
+                    <div className={classes.inside}>Home</div>
+                </Chip>
+            </NavLink>
+            <NavLink to={`${props.match.url}/posts`}>
+                <Chip className={classes.chip}>
+                    <Avatar icon={<FontIcon className="material-icons">content_paste</FontIcon>}/>
+                    <div className={classes.inside}>All Post</div>
+                </Chip>
+            </NavLink>
+            <NavLink to={`${props.match.url}/users`}>
+                <Chip className={classes.chip}>
+                    <Avatar icon={<FontIcon className="material-icons">account_circle</FontIcon>}/>
+                    <div className={classes.inside}>All Users</div>
+                </Chip>
+            </NavLink>
 
         </div>
     );

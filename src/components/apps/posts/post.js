@@ -1,14 +1,18 @@
 import React from 'react';
-import {Card, CardText} from "material-ui";
+import {FontIcon, TableRow, TableRowColumn} from "material-ui";
 import {NavLink} from "react-router-dom";
 
-const user = (props) => {
+const post = (props) => {
 
-    return (<NavLink to={props.baseURL+'/detail/'+props.data.id}><Card style={{marginBottom: '5px',cursor:'pointer'}}>
-        <CardText>
-            <h5><b>{props.data.name}</b></h5>
-            {props.data.email}<br />
-        </CardText>
-    </Card></NavLink>);
+    return (
+        <TableRow>
+            <TableRowColumn style={{width:150,textAlign:'center'}} >{props.index + 1}</TableRowColumn>
+            <TableRowColumn>{props.data.title}</TableRowColumn>
+            <TableRowColumn style={{width:100}}>
+                <NavLink to={props.baseURL+'/posts/'+props.data.id}>
+                    <FontIcon className="material-icons" color="#555">view_lists</FontIcon>
+                </NavLink>
+            </TableRowColumn>
+        </TableRow>);
 };
-export default user;
+export default post;

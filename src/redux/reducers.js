@@ -1,9 +1,7 @@
-import authReducer from './auth/reducer';
-import chatsReducer from './chat/reducer';
-import contact from './contacts/reducer';
+import rUsers from './users/reducer';
+import rPosts from './posts/reducer';
+import rAlbums from './albums/reducer';
 
 export default {
-    authReducer,
-    chatsReducer,
-    contact
+    rUsers, rPosts,rAlbums
 }

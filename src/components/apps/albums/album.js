@@ -1,18 +1,18 @@
 import React from 'react';
-import {FontIcon, TableRow, TableRowColumn} from "material-ui";
+import {Card, CardText, GridTile} from "material-ui";
 import {NavLink} from "react-router-dom";
+import image from '../../../assets/image/folder_icon_blue.png';
 
-const post = (props) => {
+const album = (props) => {
 
     return (
-        <TableRow>
-            <TableRowColumn style={{width:150,textAlign:'center'}} >{props.index + 1}</TableRowColumn>
-            <TableRowColumn>{props.data.title}</TableRowColumn>
-            <TableRowColumn style={{width:100}}>
-                <NavLink to={props.baseURL+'/posts/'+props.data.id}>
-                    <FontIcon className="material-icons" color="#555">view_lists</FontIcon>
-                </NavLink>
-            </TableRowColumn>
-        </TableRow>);
+        <NavLink to={props.baseURL + '/album/' + props.data.id}>
+            <Card style={{marginBottom: '5px', cursor: 'pointer'}}>
+                <CardText style={{textAlign:'center'}}>
+                    <img src={image} style={{width:64,height:'auto'}} />
+                    <br /><br />
+                    <div style={{fontSize:'small'}}>{props.data.title}</div>
+                </CardText>
+            </Card></NavLink>);
 };
-export default post;
+export default album;

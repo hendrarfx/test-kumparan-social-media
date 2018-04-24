@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {Grid} from "react-bootstrap";
 
 class Wrapper extends Component {
     static propTypes = {
@@ -27,9 +28,9 @@ class Wrapper extends Component {
             title = (<div style={style}><b>{this.props.title}</b></div>);
         }
         let horizontal = this.props.showHorizontalLine ? <hr/> : null;
-        return (<div className={this.props.classes} style={{marginTop: '15px'}}>{title}
+        return (<Grid fluid={true}><div className={this.props.classes} style={{marginTop: '15px'}}>{title}
             {horizontal}
-            {this.props.children}</div>);
+            {this.props.children}</div></Grid>);
     }
 }
 

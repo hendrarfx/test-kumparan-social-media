@@ -1,44 +1,45 @@
-export const POSTS = {
-    SET_ALL_POSTS: 'SET_USERS',
-    SET_POSTS_PER_USER: 'SET_POSTS_PER_USER',
-    GET_POST_FROM_SERVER: 'GET_POST_FROM_SERVER',
-    GET_POST_FROM_SERVER_IN_PROCESS: 'GET_POST_FROM_SERVER_IN_PROCESS',
-    SET_ERROR_FOR_GET_POST_FROM_SERVER: 'SET_ERROR_FOR_GET_POST_FROM_SERVER'
+export const ALBUMS = {
+    SET_ALL_ALBUMS: 'SET_USERS',
+    SET_ALBUMS_PER_USER: 'SET_ALBUMS_PER_USER',
+    GET_ALBUM_FROM_SERVER: 'GET_ALBUM_FROM_SERVER',
+    GET_ALBUM_FROM_SERVER_IN_PROCESS: 'GET_ALBUM_FROM_SERVER_IN_PROCESS',
+    SET_ERROR_FOR_GET_ALBUM_FROM_SERVER: 'SET_ERROR_FOR_GET_ALBUM_FROM_SERVER'
 };
 
-export const setAllPost = (object) => {
+export const setAllAlbum = (object) => {
     return {
-        type: POSTS.SET_ALL_POSTS,
+        type: ALBUMS.SET_ALL_ALBUMS,
         data: object
     }
 };
 
-export const setPostPerUser = (id,object) => {
+export const setAlbumPerUser = (id,object) => {
     return {
-        type: POSTS.SET_POSTS_PER_USER,
+        type: ALBUMS.SET_ALBUMS_PER_USER,
         data: object,
         id:id
     }
 };
 
-export const getPostFromServer = (params) => {
+export const getAlbumFromServer = (params,id) => {
     return {
-        type: POSTS.GET_POST_FROM_SERVER,
-        params:params
+        type: ALBUMS.GET_ALBUM_FROM_SERVER,
+        params:params,
+        id:id
     }
 };
 
 
-export const getPostFromServerInProcess = () => {
+export const getAlbumFromServerInProcess = () => {
     return {
-        type: POSTS.GET_POST_FROM_SERVER_IN_PROCESS
+        type: ALBUMS.GET_ALBUM_FROM_SERVER_IN_PROCESS
     }
 };
 
 
-export const setErrorForGetPostFromServer = (error) => {
+export const setErrorForGetAlbumFromServer = (error) => {
     return {
-        type: POSTS.SET_ERROR_FOR_GET_POST_FROM_SERVER,
+        type: ALBUMS.SET_ERROR_FOR_GET_ALBUM_FROM_SERVER,
         error:error
     }
 };

@@ -6,7 +6,7 @@ class Home extends Component {
     render() {
         return (<div>
             <AppBar/>
-            <Navigation/>
+            <Navigation {...this.props} />
             <main>
                 <AppRouter {...this.props} />
             </main>

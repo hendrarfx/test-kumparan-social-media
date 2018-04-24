@@ -6,10 +6,19 @@ import {connect} from 'react-redux';
 
 
 const router = (props) => {
+    const login=true;
     return (<Switch>
-        <Route
+        <PrivateRoute
             exact
+            needAuth={!login}
+            wrongAuthRedirectPath="/dashboard"
             path="/"
+            component={asyncComponent(() => import('./containers/signin/index.js'))}
+        />
+        <PrivateRoute
+            needAuth={login}
+            wrongAuthRedirectPath="/"
+            path="/dashboard"
             component={asyncComponent(() => import('./containers/home/index.js'))}
         />
         <Route
@@ -23,14 +32,14 @@ const router = (props) => {
     </Switch>);
 }
 
-const CustomRoute = ({component: Component, isLoggedIn, redirectPath, ...rest}) => (
+const PrivateRoute = ({component: Component, needAuth, wrongAuthRedirectPath, ...rest}) => (
     <Route
         {...rest}
-        render={props => isLoggedIn
+        render={props => needAuth
             ? <Component {...props} />
             : <Redirect
                 to={{
-                    pathname: redirectPath
+                    pathname: wrongAuthRedirectPath
                 }}
             />}
     />
