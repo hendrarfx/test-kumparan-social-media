@@ -3,6 +3,7 @@ import * as actionType from './actions';
 import axios from '../../common/config/axios.config';
 
 export function* getAlbumsFromServer(action) {
+
     try {
         let queryParams = '';
         if (action.params) {
@@ -15,8 +16,9 @@ export function* getAlbumsFromServer(action) {
         yield put(actionType.getAlbumFromServerInProcess());
         const results = yield axios.get('/albums' + queryParams);
 
-        yield put(actionType.setAlbumPerUser(action.id,results.data));
+        yield put(actionType.setAlbumPerUser(action.id, results.data));
     } catch (error) {
         yield put(actionType.setErrorForGetAlbumFromServer(error.message));
     }
+
 }

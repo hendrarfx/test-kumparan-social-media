@@ -9,7 +9,7 @@ const post = (props) => {
             <TableRowColumn style={{width:150,textAlign:'center'}} >{props.index + 1}</TableRowColumn>
             <TableRowColumn>{props.data.title}</TableRowColumn>
             <TableRowColumn style={{width:100}}>
-                <NavLink to={props.baseURL+'/posts/'+props.data.id}>
+                <NavLink to={'/dashboard/posts/'+props.data.id}>
                     <FontIcon className="material-icons" color="#555">view_lists</FontIcon>
                 </NavLink>
             </TableRowColumn>

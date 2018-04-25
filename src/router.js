@@ -4,9 +4,8 @@ import {withRouter} from 'react-router';
 import asyncComponent from './common/hoc/AsyncComponent';
 import {connect} from 'react-redux';
 
-
 const router = (props) => {
-    const login=true;
+    const login=props.isLogin;
     return (<Switch>
         <PrivateRoute
             exact
@@ -21,6 +20,12 @@ const router = (props) => {
             path="/dashboard"
             component={asyncComponent(() => import('./containers/home/index.js'))}
         />
+        <PrivateRoute
+            needAuth={login}
+            wrongAuthRedirectPath="/"
+            path="/signout"
+            component={asyncComponent(() => import('./containers/signout/index.js'))}
+        />
         <Route
             exact
             path="/404"
@@ -31,6 +36,8 @@ const router = (props) => {
 
     </Switch>);
 }
+
+
 
 const PrivateRoute = ({component: Component, needAuth, wrongAuthRedirectPath, ...rest}) => (
     <Route
@@ -46,4 +53,10 @@ const PrivateRoute = ({component: Component, needAuth, wrongAuthRedirectPath, ..
 );
 
 
-export default router;
+const mapStateToProps=(state)=>{
+    return{
+        isLogin:state.rAuth.login
+    }
+}
+
+export default withRouter(connect(mapStateToProps)(router));

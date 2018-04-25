@@ -5,9 +5,10 @@ import Albums from '../../albums';
 const userAlbum = (props) => {
 
     return (<Card>
-        <CardTitle title="My Albums" titleStyle={{fontWeight: 'bold'}}/>
+        <CardTitle title={props.title} titleStyle={{fontWeight: 'bold'}}/>
         <CardText>
-            <Albums data={props.data} baseURL={props.baseURL} />
+            <Albums data={props.data} baseURL={props.baseURL} isStillLoading={props.isStillLoading}
+                    error={props.error}/>
         </CardText>
     </Card>);
 }

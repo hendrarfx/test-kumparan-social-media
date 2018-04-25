@@ -2,9 +2,7 @@ import * as actionType from './actions';
 import {utility} from '../../common/helper';
 
 const initializeState = {
-    albums: {
-        all: []
-    },
+    albums: {},
     gettingDataFromServer: false,
     error: ''
 }
@@ -12,12 +10,12 @@ const initializeState = {
 const reducer = (state = initializeState, action) => {
     switch (action.type) {
         case actionType.ALBUMS.SET_ALL_ALBUMS:
-            const newState2 = {};
-            newState2[action.id] = action.data;
-            return utility(state, {albums: newState2, gettingDataFromServer: false, error: ''});
+            return utility(state, {albums: {...state.albums}, gettingDataFromServer: false, error: ''});
         case actionType.ALBUMS.SET_ALBUMS_PER_USER:
+
             const newState = {...state.albums};
-            newState[action.id] = action.data;
+            newState[action.id] = [...action.data];
+
             return utility(state, {albums: newState, gettingDataFromServer: false, error: ''});
         case actionType.ALBUMS.GET_ALBUM_FROM_SERVER_IN_PROCESS:
             return utility(state, {gettingDataFromServer: true, error: ''});

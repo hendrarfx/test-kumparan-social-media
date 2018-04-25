@@ -15,7 +15,7 @@ export const styling = {
         canvasColor: colors.white,
         borderColor: colors.grey300,
         disabledColor: fade(colors.darkBlack, 0.3),
-        pickerHeaderColor: colors.amber700,
+        pickerHeaderColor: colors.blue700,
         clockCircleColor: fade(colors.darkBlack, 0.07),
         shadowColor: colors.fullBlack,
     }

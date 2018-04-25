@@ -5,7 +5,7 @@ import AppRouter from '../appRouter';
 class Home extends Component {
     render() {
         return (<div>
-            <AppBar/>
+            <AppBar {...this.props} />
             <Navigation {...this.props} />
             <main>
                 <AppRouter {...this.props} />

@@ -1,15 +1,38 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {Card, CardText, CardTitle} from "material-ui";
 import Posts from '../../posts';
+import ScrollBar from "../../../UI/ScrollBar/index";
+import PropTypes from 'prop-types';
 
-const userPost = (props) => {
+class UserPost extends Component {
+    static propTypes = {
+        id: PropTypes.string,
+        title: PropTypes.string.isRequired,
+        height: PropTypes.string,
+        data: PropTypes.array,
+        baseURL: PropTypes.string,
+        isStillLoading: PropTypes.bool.isRequired,
+        error: PropTypes.string,
+    };
 
-    return (<Card>
-        <CardTitle title="My Posts" titleStyle={{fontWeight: 'bold'}}/>
-        <CardText>
-            <Posts data={props.data} baseURL={props.baseURL} />
-        </CardText>
-    </Card>);
+    static defaultProps = {
+        height: '350px',
+        isStillLoading: false,
+        id: '' + new Date().getTime()
+    }
+
+    render() {
+        return (<Card>
+            <CardTitle title={this.props.title} titleStyle={{fontWeight: 'bold'}}/>
+            <CardText>
+                <ScrollBar id={this.props.id} height={this.props.height}>
+                    <Posts data={this.props.data} baseURL={this.props.baseURL}
+                           isStillLoading={this.props.isStillLoading}
+                           error={this.props.error}/>
+                </ScrollBar>
+            </CardText>
+        </Card>);
+    }
 }
 
-export default userPost;
+export default UserPost;
