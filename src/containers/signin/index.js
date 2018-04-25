@@ -1,22 +1,28 @@
 import React, {Component} from 'react';
-import {Inputs, checkValidity,checkFormValid,getFormValueJSONObject} from '../../components/UI/Input/Inputs';
+import {
+    Inputs,
+    checkValidity,
+    checkFormValid,
+    getFormValueJSONObject,
+    elementType
+} from '../../components/UI/MUICustomInput';
 import classes from './SignIn.css';
-import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
-import * as actionType from '../../redux/auth/actions';
+import {authActionType} from '../../redux/actions';
+
+import {Card, CardText, CardTitle, CircularProgress, Dialog} from 'material-ui';
 import {RaisedButton} from "material-ui";
+import {styling} from '../../common/config/material.ui.themes.config';
 
 class SignIn extends Component {
     state = {
         form: [
             {
-                id: 'email',
-                label: 'Your Email',
+                id: 'username',
+                label: 'Username',
+                hintText: 'Your Username',
+                elementType: elementType.input,
                 config: {
-                    elementType: 'input-email',
-                    elementConfig: {
-                        placeholder: 'Your Email'
-                    },
                     validation: {
                         required: true
                     }
@@ -24,16 +30,14 @@ class SignIn extends Component {
                 valid: false,
                 validationMessage: [],
                 touched: false,
-                value: ''
+                value: '',
+                defaultValue: ''
             }, {
                 id: 'password',
                 label: 'Password',
+                hintText: 'Your Password',
+                elementType: elementType.password,
                 config: {
-                    elementType: 'input-password',
-                    elementConfig: {
-                        type: 'password',
-                        placeholder: 'Your Password'
-                    },
                     validation: {
                         required: true
                     }
@@ -41,10 +45,11 @@ class SignIn extends Component {
                 valid: false,
                 validationMessage: [],
                 touched: false,
-                value: ''
+                value: '',
+                defaultValue: ''
             }
         ],
-        loginObject:{}
+        loginObject: {}
     }
 
     inputChangedHandler = (event, id) => {
@@ -55,60 +60,86 @@ class SignIn extends Component {
         authForm[id] = selected;
         const formValid = checkFormValid(authForm);
         const jsonObj = getFormValueJSONObject(authForm);
-        this.setState({form: authForm, formIsValid: formValid,loginObject:jsonObj});
+        this.setState({form: authForm, formIsValid: formValid, loginObject: jsonObj});
     }
 
     componentWillMount(){
-        this.props.resetError();
+        this.props.checkStateFromLocalStorage();
     }
 
     componentDidUpdate() {
         if (this.props.isLogin) {
-            this.props.history.push('/chat');
+            this.props.history.push('/dashboard');
         }
     }
 
     render() {
-        let spinner = null;
-        if (this.props.authInProcess) spinner = <Spinner show={true} message="Please Wait..."/>
-        return <div className={classes.SignIn}>
-            {spinner}
-            <h1>SIGN IN</h1>
-            <hr/>
-            <Inputs form={this.state.form} changeHandler={this.inputChangedHandler} />
+        return (<div className={classes.wrapper} style={{backgroundColor:styling.palette.primary3Color}}>
+            <div className={classes.SignIn}>
 
-            <RaisedButton
-                label={'SIGN IN'}
-                fullWidth={true}
-                labelStyle={{fontSize:'16pt'}}
-                disabled={!this.state.formIsValid}
-                secondary={true}
-                onClick={() => this.props.login(this.state.loginObject)}
-            />
+                <Dialog
+                    title=""
+                    titleStyle={{textAlign: 'center'}}
+                    modal={true}
+                    open={this.props.authInProcess}>
+                    <div align="center"><CircularProgress size={80} thickness={5}/><br/><br/><h4>Auth In Process, Please
+                        Wait ...</h4></div>
+                </Dialog>
+                <Card style={{padding:'25px'}}>
+                    <CardTitle title={'SOCMED DASHBOARD'} titleStyle={{
+                        textAlign: 'center',
+                        fontSize: '20pt',
+                        fontWeight:'bold',
+                        color: styling.palette.primary1Color,
+                        paddingBottom:'10px',
+                        borderBottom:'thin solid #ddd'
+                    }}
+                    subtitle={'Sign In to Your Account'}
+                    subtitleStyle={{ textAlign: 'center',
+                        marginTop:'16px',
+                        fontWeight:'bold',
+                        fontSize: '12pt'}}
+                    />
+                    <CardText>
+                        <Inputs form={this.state.form} onChange={this.inputChangedHandler}/>
+                        <RaisedButton
+                            label={'SIGN IN'}
+                            fullWidth={true}
+                            labelStyle={{fontSize: '16pt'}}
+                            disabled={!this.state.formIsValid}
+                            primary={true}
+                            onClick={() => this.props.login(this.state.loginObject)}
+                        />
+                        <div style={{marginTop: '25px', marginBottom: '10px', textAlign: 'center', color: 'red'}}>
+                            {this.props.errorMessage}</div>
+                    </CardText>
+                </Card>
 
-            <div style={{marginTop:'25px',marginBottom:'10px',textAlign:'center',color:'red'}}>
-                {this.props.errorMessage}</div>
-            <div className={classes.RegisterPanel}>
-                If you don't have account, please <NavLink to="/register">register</NavLink> here
+
+
+              {/*  <div className={classes.RegisterPanel}>
+                    If you don't have account, please <NavLink to="/register">register</NavLink> here
+                </div>*/}
             </div>
-        </div>;
+        </div>)
+            ;
     }
 }
 
 const mapsStateToProps = state => {
     return {
-        authInProcess: state.authReducer.inProcess,
-        error: state.authReducer.error,
-        errorMessage: state.authReducer.errorMessage,
-        isLogin:state.authReducer.login
+        authInProcess: state.rAuth.inProcess,
+        error: state.rAuth.error,
+        errorMessage: state.rAuth.errorMessage,
+        isLogin: state.rAuth.login
     };
 };
 
 const mapsDispatchToProps = dispatch => {
     return {
-        login: (user) => dispatch(actionType.loginUser(user)),
-        resetError: () => dispatch(actionType.resetError())
+        login: (user) => dispatch(authActionType.loginUser(user)),
+        checkStateFromLocalStorage:()=>dispatch(authActionType.checkStateFromLocalStorage())
     };
 };
 
-export default connect(mapsStateToProps,mapsDispatchToProps)(SignIn);
+export default connect(mapsStateToProps, mapsDispatchToProps)(SignIn);
