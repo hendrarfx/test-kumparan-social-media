@@ -25,5 +25,18 @@ npm install
 
 npm start
 ```
+## How to login
+Because of the password is still use hardcode password, you can login by using this configuration
+
+```sh
+username: Bret
+password:admin
+```
+
+You can see another username in server/db.json
+
+## Next Improvements
+* Improve authentication, authentication in this project use data  of user in db.json and hardcode password. So the next improvement, authentication must look in backend server that manage real authentication and use token in post, put, delete transaction
+* Enhance performance by adding lazy load and pagination to access data
 
 
