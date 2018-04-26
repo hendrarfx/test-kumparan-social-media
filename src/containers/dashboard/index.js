@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Col, Row} from 'react-bootstrap';
-import {Avatar, Chip, FontIcon, RaisedButton} from 'material-ui';
+import {Avatar, Chip, FontIcon, RaisedButton, Snackbar} from 'material-ui';
 import Wrapper from "../../common/hoc/Wrapper";
 import {postActionType, albumActionType} from "../../redux/actions";
 import {connect} from "react-redux";
@@ -19,7 +19,10 @@ class Dashboard extends Component {
             title: '',
             body: ''
         },
-        addFormMessage: ''
+        addFormMessage: '',
+        submitOnProcess: false,
+        openSnackBar: false,
+        snackbarMessage: ''
     }
 
     componentWillMount() {
@@ -33,7 +36,7 @@ class Dashboard extends Component {
     }
 
     componentDidUpdate() {
-        console.log('TRANSACTION_POST:',this.props);
+        this.afterTransactionChecking();
     }
 
     showPost = () => {
@@ -76,12 +79,40 @@ class Dashboard extends Component {
         if (data.title !== '' && data.title !== null && data.title !== undefined) {
             if (data.body !== '' && data.body !== null && data.body !== undefined) {
                 this.props.savePostToServer(data);
+                this.setState({submitOnProcess: true});
             } else {
                 this.setState({addFormMessage: 'Body is required'});
             }
         } else {
             this.setState({addFormMessage: 'Title is required'});
         }
+    }
+
+    afterTransactionChecking = () => {
+
+        if (this.props.transactionInProcess === false && this.state.submitOnProcess === true) {
+
+            if (this.props.transactionSuccess) {
+                this.closeModal();
+                this.setState({
+                    openSnackBar: true, snackBarMessage: 'Post has been added', submitOnProcess: false,
+                    addForm: {
+                        userId: '',
+                        title: '',
+                        body: ''
+                    }
+                });
+            }
+
+            if (this.props.transactionFailed) {
+                console.log('FAILED');
+                this.setState({addFormMessage: this.props.transactionMessage, submitOnProcess: false});
+            }
+        }
+    }
+
+    closeSnackBar = () => {
+        this.setState({openSnackBar: false});
     }
 
     render() {
@@ -107,6 +138,7 @@ class Dashboard extends Component {
                           onSubmit={this.savePostToServer} postTitle={this.state.addForm.title}
                           postTitleOnChange={this.changeTitleValue}
                           message={this.state.addFormMessage}
+                          onSubmitLoading={this.props.transactionInProcess}
                           postBody={this.state.addForm.body} postBodyOnChange={this.changeBodyValue}/>
                 <Row>
                     <Col xs={12} sm={3} md={3} lg={3}>
@@ -127,6 +159,12 @@ class Dashboard extends Component {
                         {rendered}
                     </Col>
                 </Row>
+                <Snackbar
+                    open={this.state.openSnackBar}
+                    message={this.props.transactionMessage}
+                    autoHideDuration={4000}
+                    onRequestClose={this.closeSnackBar}
+                />
             </Wrapper>
         );
     };
@@ -142,7 +180,6 @@ const mapStateToProps = (state) => {
         myAlbums: state.rAlbums.albums,
         loadDataAlbums: state.rAlbums.gettingDataFromServer,
         errorGettingAlbum: state.rAlbums.error,
-
         transactionInProcess: state.rPosts.transactionInProcess,
         transactionFailed: state.rPosts.transactionFailed,
         transactionSuccess: state.rPosts.transactionSuccess,

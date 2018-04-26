@@ -22,7 +22,7 @@ const reducer = (state = initializeState, action) => {
             };
             return utility(state, newState);
         case actionType.AUTH.AUTH_FAIL:
-            return utility(state, {error: true, errorMessage: convertingErrorMessage(action.error), inProcess: false});
+            return utility(state, {error: true, errorMessage: action.error, inProcess: false});
         case actionType.AUTH.SET_AUTH_IN_PROCESS:
             return utility(state, {error: false, inProcess: true, errorMessage: ''});
         case actionType.AUTH.AUTH_SIGN_OUT:
@@ -36,24 +36,6 @@ const reducer = (state = initializeState, action) => {
     }
 }
 
-const convertingErrorMessage = (message) => {
-    switch (message) {
-        case 'EMAIL_EXISTS':
-            return 'The email address is already in use by another account';
-        case 'OPERATION_NOT_ALLOWED':
-            return 'Your account has been disabled';
-        case 'TOO_MANY_ATTEMPTS_TRY_LATER':
-            return 'We have blocked all requests from this device due to unusual activity. Try again later.';
-        case 'EMAIL_NOT_FOUND':
-            return 'There is no user record corresponding to this identifier. The user may have been deleted.';
-        case 'INVALID_PASSWORD':
-            return 'The password is invalid or the user does not have a password.';
-        case 'USER_DISABLED':
-            return 'The user account has been disabled by an administrator.';
-        default:
-            return message;
-    }
-};
 
 
 export default reducer;

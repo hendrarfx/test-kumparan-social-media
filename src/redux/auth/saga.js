@@ -20,7 +20,7 @@ export function* login(action) {
         const response = yield axios.get('/users?username='+action.user.username);
         if(response.data.length > 0){
             if(action.user.password==='admin'){
-                const expires = yield (new Date().getTime() + (3600 * 1000));
+                const expires = yield (new Date().getTime() + (7200 * 1000));
                 const user=response.data[0];
                 const object = {
                     id: user.id,
@@ -29,7 +29,7 @@ export function* login(action) {
 
                 yield localStorage.setItem('token', JSON.stringify(object));
                 yield put(actionType.setUser(user));
-                yield put(actionType.checkAuthTimeout(3600 * 1000));
+                yield put(actionType.checkAuthTimeout(7200 * 1000));
 
             } else{
                 yield put(actionType.setError('Password is not match'));

@@ -63,7 +63,7 @@ class SignIn extends Component {
         this.setState({form: authForm, formIsValid: formValid, loginObject: jsonObj});
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.props.checkStateFromLocalStorage();
     }
 
@@ -74,7 +74,7 @@ class SignIn extends Component {
     }
 
     render() {
-        return (<div className={classes.wrapper} style={{backgroundColor:styling.palette.primary3Color}}>
+        return (<div className={classes.wrapper} style={{backgroundColor: styling.palette.primary3Color}}>
             <div className={classes.SignIn}>
 
                 <Dialog
@@ -85,20 +85,22 @@ class SignIn extends Component {
                     <div align="center"><CircularProgress size={80} thickness={5}/><br/><br/><h4>Auth In Process, Please
                         Wait ...</h4></div>
                 </Dialog>
-                <Card style={{padding:'25px'}}>
+                <Card style={{padding: '25px'}}>
                     <CardTitle title={'SOCMED DASHBOARD'} titleStyle={{
                         textAlign: 'center',
                         fontSize: '20pt',
-                        fontWeight:'bold',
+                        fontWeight: 'bold',
                         color: styling.palette.primary1Color,
-                        paddingBottom:'10px',
-                        borderBottom:'thin solid #ddd'
+                        paddingBottom: '10px',
+                        borderBottom: 'thin solid #ddd'
                     }}
-                    subtitle={'Sign In to Your Account'}
-                    subtitleStyle={{ textAlign: 'center',
-                        marginTop:'16px',
-                        fontWeight:'bold',
-                        fontSize: '12pt'}}
+                               subtitle={'Sign In to Your Account'}
+                               subtitleStyle={{
+                                   textAlign: 'center',
+                                   marginTop: '16px',
+                                   fontWeight: 'bold',
+                                   fontSize: '12pt'
+                               }}
                     />
                     <CardText>
                         <Inputs form={this.state.form} onChange={this.inputChangedHandler}/>
@@ -115,11 +117,6 @@ class SignIn extends Component {
                     </CardText>
                 </Card>
 
-
-
-              {/*  <div className={classes.RegisterPanel}>
-                    If you don't have account, please <NavLink to="/register">register</NavLink> here
-                </div>*/}
             </div>
         </div>)
             ;
@@ -138,7 +135,7 @@ const mapsStateToProps = state => {
 const mapsDispatchToProps = dispatch => {
     return {
         login: (user) => dispatch(authActionType.loginUser(user)),
-        checkStateFromLocalStorage:()=>dispatch(authActionType.checkStateFromLocalStorage())
+        checkStateFromLocalStorage: () => dispatch(authActionType.checkStateFromLocalStorage())
     };
 };
 

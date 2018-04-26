@@ -4,7 +4,11 @@ import {utility} from '../../common/helper';
 const initializeState = {
     comments: {},
     gettingDataFromServer: false,
-    error: ''
+    error: '',
+    cTransactionInProcess: false,
+    cTransactionSuccess: false,
+    cTransactionFailed: false,
+    cTransactionMessage: '',
 }
 
 const reducer = (state = initializeState, action) => {
@@ -19,6 +23,27 @@ const reducer = (state = initializeState, action) => {
             return utility(state, {gettingDataFromServer: true, error: ''});
         case actionType.COMMENTS.SET_ERROR_FOR_GET_COMMENT_FROM_SERVER:
             return utility(state, {gettingDataFromServer: false, error: action.error});
+        case actionType.COMMENTS.COMMENTS_TRANSACTION_IN_PROCESS:
+            return utility(state, {
+                cTransactionInProcess: false,
+                cTransactionFailed: false,
+                cTransactionSuccess: false,
+                cTransactionMessage: ''
+            });
+        case actionType.COMMENTS.COMMENTS_TRANSACTION_SUCCESS:
+            return utility(state, {
+                cTransactionInProcess: false,
+                cTransactionFailed: false,
+                cTransactionSuccess: true,
+                cTransactionMessage: action.message
+            });
+        case actionType.COMMENTS.COMMENTS_TRANSACTION_FAILED:
+            return utility(state, {
+                cTransactionInProcess: false,
+                cTransactionFailed: true,
+                cTransactionSuccess: false,
+                cTransactionMessage: action.message
+            });
         default:
             return state;
     }
